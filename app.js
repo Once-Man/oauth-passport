@@ -8,6 +8,7 @@ require('dotenv').config();
 const passportSetup = require('./config/passport-setup');
 const keys = require('./config/keys');
 const authRoutes = require('./routes/auth-routes');
+const profileRoutes = require('./routes/profile-routes');
 
 const app = express();
 
@@ -30,9 +31,10 @@ mongoose.connect(keys.mongodb.dbURI, {
 const PORT = process.env.PORT || 3000;
 
 app.get('/', (req,res) => {
-    res.render('home');
+    res.render('home', {user: req.user});
 });
 
 app.use('/auth', authRoutes);
+app.use('/profile', profileRoutes);
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
